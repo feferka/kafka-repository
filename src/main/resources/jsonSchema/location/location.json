@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Location",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "gps": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "string"
+        },
+        "lon": {
+          "type": "string"
+        }
+      },
+      "required": ["lat", "lon"]
+    }
+  },
+  "required": ["name", "address", "gps"]
+}

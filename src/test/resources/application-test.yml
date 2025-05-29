@@ -1,0 +1,18 @@
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    properties:
+      security.protocol: PLAINTEXT
+
+    streams:
+      replication-factor: 1
+      state-dir: /tmp/kafka-streams
+
+      properties:
+        processing.guarantee: exactly_once
+        max.request.size: 4000 # for testing purpose - simulate production error when sent a too big message

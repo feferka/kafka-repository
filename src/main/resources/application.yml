@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include:
+            - livenessState
+          show-details: always
+  health:
+    livenessState:
+      enabled: true
+
+spring:
+  application:
+    name: kafka-repository-demo
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      locasLocations: locas.locations.compact
+
+    properties:
+      connections.max.idle.ms: 210000
+      security.protocol: SASL_SSL
+      sasl.mechanism: PLAIN
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="USERNAME" password="PASSWORD";
+      max.request.size: 10485880
+      fetch.max.bytes: 10485880
+      isolation.level: read_committed
+
+    consumer:
+      auto-offset-reset: earliest
+
+    producer:
+      acks: all
+
+    streams:
+      application-id: kafka-repository-demo
+      replication-factor: 3
+      state-dir: /tmp/kafka-streams
+      state-store-cache-max-size: 0
+      properties:
+        spring.json.trusted.packages: "feferka.kafka.repository.*, java.util, java.lang"
+        processing.guarantee: exactly_once_v2
