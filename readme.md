@@ -14,7 +14,7 @@ Internally uses GlobalKTable which is persisted as RockDB in local file system i
     
         public LocationRepository(StreamsBuilderFactoryBean streamsBuilderFactoryBean, KafkaConfig kafkaConfig) {
             super(streamsBuilderFactoryBean,
-                    kafkaConfig.getLocasLocationsTopic(),
+                    kafkaConfig.getLocationTopic(),
                     "locations-store",
                     Serdes.String(),
                     new JsonSerde<>(Location.class));

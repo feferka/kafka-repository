@@ -12,7 +12,7 @@ public class LocationRepository extends KafkaRepository<String, Location> {
 
     public LocationRepository(StreamsBuilderFactoryBean streamsBuilderFactoryBean, KafkaConfig kafkaConfig) {
         super(streamsBuilderFactoryBean,
-                kafkaConfig.getLocasLocationsTopic(),
+                kafkaConfig.getLocationTopic(),
                 "locations-store",
                 Serdes.String(),
                 new JsonSerde<>(Location.class));

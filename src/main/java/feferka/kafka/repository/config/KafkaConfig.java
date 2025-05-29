@@ -22,8 +22,8 @@ public class KafkaConfig {
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value(value = "${spring.kafka.topics.locasLocations}")
-    private String locasLocationsTopic;
+    @Value(value = "${spring.kafka.topics.locations}")
+    private String locationTopic;
 
     private final KafkaStreamsConfiguration configuration;
 

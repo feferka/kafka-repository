@@ -22,7 +22,7 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     topics:
-      locasLocations: locas.locations.compact
+      locations: locations.compact
 
     properties:
       connections.max.idle.ms: 210000

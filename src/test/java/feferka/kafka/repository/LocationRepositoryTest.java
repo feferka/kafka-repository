@@ -39,8 +39,8 @@ public class LocationRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        locationSender = new KafkaTopicSender<>(kafkaConfig.getBootstrapServers(), kafkaConfig.getLocasLocationsTopic(), String.class, Location.class);
-        locationReader = new KafkaTopicReader<>(kafkaConfig.getBootstrapServers(), kafkaConfig.getLocasLocationsTopic(), String.class, Location.class);
+        locationSender = new KafkaTopicSender<>(kafkaConfig.getBootstrapServers(), kafkaConfig.getLocationTopic(), String.class, Location.class);
+        locationReader = new KafkaTopicReader<>(kafkaConfig.getBootstrapServers(), kafkaConfig.getLocationTopic(), String.class, Location.class);
     }
 
     @AfterEach

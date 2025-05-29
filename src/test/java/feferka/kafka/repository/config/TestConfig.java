@@ -38,6 +38,6 @@ public class TestConfig {
 
     @Bean
     public NewTopic locasLocationsCompact() {
-        return new NewTopic(kafkaConfig.getLocasLocationsTopic(), 3, (short) 1);
+        return new NewTopic(kafkaConfig.getLocationTopic(), 3, (short) 1);
     }
 }
