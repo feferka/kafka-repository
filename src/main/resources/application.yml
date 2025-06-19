@@ -1,20 +1,6 @@
 server:
   port: 8080
 
-management:
-  endpoint:
-    health:
-      probes:
-        enabled: true
-      group:
-        liveness:
-          include:
-            - livenessState
-          show-details: always
-  health:
-    livenessState:
-      enabled: true
-
 spring:
   application:
     name: kafka-repository-demo
