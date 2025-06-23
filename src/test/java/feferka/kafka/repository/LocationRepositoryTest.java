@@ -1,6 +1,7 @@
 package feferka.kafka.repository;
 
 import feferka.kafka.repository.config.KafkaConfig;
+import feferka.kafka.repository.config.TestConfig;
 import feferka.kafka.repository.model.location.Gps;
 import feferka.kafka.repository.model.location.Location;
 import feferka.kafka.repository.repository.LocationRepository;
@@ -16,10 +17,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.nio.file.Path;
 
-@DihTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = {Application.class, TestConfig.class})
+@ActiveProfiles("test")
 public class LocationRepositoryTest {
 
     @Value("${spring.kafka.streams.state-dir}")
@@ -66,7 +70,7 @@ public class LocationRepositoryTest {
         {
             TestUtils.awaitUntilGotExpectedKey(locationReader, id);
             val locationByKey = locationsRepository.getByKey(id);
-            val locations = locationsRepository.findAll().toList();
+            val locations = locationsRepository.findAll().map(keyValue -> keyValue.value).toList();
 
             Assertions.assertNotNull(locationByKey);
             Assertions.assertEquals(1, locations.size());

@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.utils.Bytes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StoreQueryParameters;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Materialized;
@@ -40,36 +42,34 @@ public abstract class KafkaRepository<K, V> {
         );
     }
 
-    private ReadOnlyKeyValueStore<K, V> getStore() {
-        return Objects.requireNonNull(streamsBuilderFactoryBean.getKafkaStreams())
-                .store(StoreQueryParameters.fromNameAndType(storeName, QueryableStoreTypes.keyValueStore()));
-    }
-
     public V getByKey(K key) {
         return getStore().get(key);
     }
 
-    public Stream<V> findAll() {
-        return streamValues(getStore().all());
+    public Stream<KeyValue<K, V>> findAll() {
+        return streamKeyValues(getStore().all());
     }
 
-    private Stream<V> streamValues(KeyValueIterator<K, V> kvIterator) {
-        val valueIterator = new Iterator<V>() {
+    private Stream<KeyValue<K, V>> streamKeyValues(KeyValueIterator<K, V> kvIterator) {
+        val kvStreamIterator = new Iterator<KeyValue<K, V>>() {
             @Override
             public boolean hasNext() {
                 return kvIterator.hasNext();
             }
 
             @Override
-            public V next() {
-                return kvIterator.next().value;
+            public KeyValue<K, V> next() {
+                val next = kvIterator.next();
+                return new KeyValue<>(next.key, next.value);
             }
         };
 
-        val spliterator = Spliterators.spliteratorUnknownSize(valueIterator, Spliterator.ORDERED);
+        val spliterator = Spliterators.spliteratorUnknownSize(kvStreamIterator, Spliterator.ORDERED);
+        return StreamSupport.stream(spliterator, false).onClose(kvIterator::close);
+    }
 
-        return StreamSupport
-                .stream(spliterator, false)
-                .onClose(kvIterator::close);
+    private ReadOnlyKeyValueStore<K, V> getStore() {
+        return Objects.requireNonNull(streamsBuilderFactoryBean.getKafkaStreams())
+                .store(StoreQueryParameters.fromNameAndType(storeName, QueryableStoreTypes.keyValueStore()));
     }
 }

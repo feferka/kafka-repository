@@ -29,8 +29,6 @@ public class TestConfig {
                 new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.4.9")) {{
                     this.withCreateContainerCmdModifier(cmd -> cmd.withHostName("localhost"))
                             .withExposedPorts(2181, 9092, 9093).withNetwork(Network.newNetwork());
-                            //.withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(KafkaContainer.class)));
-
                     addEnv("CONFLUENT_SUPPORT_METRICS_ENABLE", "false");
                     setPortBindings(List.of("2181:2181", "9092:9092", "9093:9093"));
                 }};

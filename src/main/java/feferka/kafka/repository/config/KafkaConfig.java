@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
-import org.springframework.kafka.config.KafkaStreamsConfiguration;
 
 @Getter
 @EnableKafka
@@ -15,7 +14,6 @@ import org.springframework.kafka.config.KafkaStreamsConfiguration;
 @RequiredArgsConstructor
 public class KafkaConfig {
 
-    private final KafkaStreamsConfiguration configuration;
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
     @Value(value = "${spring.kafka.topics.locations}")

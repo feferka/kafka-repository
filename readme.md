@@ -25,13 +25,9 @@ Internally uses GlobalKTable which is persisted as RockDB in local file system i
 KafkaRepository will provide two basic methods:
 
 ```java
-    public V getByKey(K key) {
-        return getStore().get(key);
-    }
+    public V getByKey(K key);
 
-    public Stream<V> findAll() {
-        return KafkaStreamUtils.streamValues(getStore().all());
-    }
+    public Stream<KeyValue<K, V>> findAll();
 ```
 
 Kafka user doesn't need to have rights to manage topics.<br>
